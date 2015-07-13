@@ -76,12 +76,18 @@ namespace Lab4_ClassesAndObjects
             int student = 0;
             char input = 'Z';
 
-            Console.Write("Please enter the number of the student you wish to modify: ");
+            //Console.Wt
+
+            Console.WriteLine("\nPlease enter the number of the student you wish to modify:");
+            for (int i = 0; i < team.Count; i++)
+                Console.WriteLine("Press {0} for {1}", i + 1, team[i].name);
+
+            Console.Write(">>");
             student = Int32.Parse(Console.ReadLine()) - 1;
 
             //showing selected student and askign if this is who they wanted
             team[student].print();
-            Console.Write("\nIs this the correct student? (Y/N) ");
+            Console.Write("\nIs this the correct student? (Y/N - Don't press enter) ");
             input = Console.ReadKey().KeyChar; //input will be if user selected correct student
             Console.Clear();
 
@@ -90,6 +96,7 @@ namespace Lab4_ClassesAndObjects
             else
                 return input; //keeping rest of function from running while in recursive call
 
+            Console.WriteLine("HEEEEYYY");
             team[student].doSomething(); //modifying student's level based on user input
 
             //asking to continue, if no, then while look in Main will break.
@@ -125,25 +132,20 @@ namespace Lab4_ClassesAndObjects
             public void doSomething()
             {
                 int action;
-
-
+                
                 Console.WriteLine("Select a number.\n Did the student (1) Code a program or (2) Assist another student? \n");
                 Console.WriteLine();
                 action = int.Parse(Console.ReadLine());
 
                 if (action == 1)
-                {
                     level++;
-                }
+
                 else if (action == 2)
-                {
                     level = level + 2;
-                }
                 else
                     Console.WriteLine("Invalid number.\n");
-
-
             }
+
             private void findRank(int pts)
             {
                 int switchcase = pts / 5;
