@@ -28,7 +28,7 @@ namespace Lab4_ClassesAndObjects
             Console.WriteLine("\n\nGoodbye");
         }
 
-        static void  main2(List<Student> team)  //user-driven team
+        static void main2(List<Student> team)  //user-driven team
         {
             int size = 0, level = 0;
             string name = "";
@@ -45,10 +45,10 @@ namespace Lab4_ClassesAndObjects
             //setting input as the limiter for team ==> asking for name and level of each student
             for (int i = 0; i < size; i++)
             {
-                Console.Write("\nEnter student #{0}'s name: ", i+1);  //asking name
+                Console.Write("\nEnter student #{0}'s name: ", i + 1);  //asking name
                 name = Console.ReadLine();
 
-                Console.Write("Enter student #{0}'s level (integer number): ", i+1); //asking level
+                Console.Write("Enter student #{0}'s level (integer number): ", i + 1); //asking level
 
                 //error-handling concisely by putting tryparse as the while's condition
                 while (!Int32.TryParse(Console.ReadLine(), out level) || level < 0)
@@ -70,14 +70,11 @@ namespace Lab4_ClassesAndObjects
 
             return team;
         }
-        
+
         static char menu(List<Student> team)
         {
             int student = 0;
             char input = 'Z';
-
-            for (int i = 0; i < team.Count; i++)
-                team[i].print();
 
             Console.Write("Please enter the number of the student you wish to modify: ");
             student = Int32.Parse(Console.ReadLine()) - 1;
@@ -101,25 +98,98 @@ namespace Lab4_ClassesAndObjects
 
             return input;
         }
-        
-        public class Student
+
+        class Student
         {
-            string name;
-            int level;
+            public string name;
+            public int level;
             string rank;
 
-            public void print()
-            { Console.WriteLine(this.name); }
-
-            public Student(string name, int level)
+            public Student()
             {
-                this.name = name;
-                this.level = level;
+                level = 0;
+                rank = "";
+                name = "";
             }
+            public Student(string id, int pts)
+            {
+                name = id;
+                level = pts;
+            }
+            public void print()
+            {
+                findRank(this.level);
+                Console.WriteLine("The student {0} is level {1} and rank {2}", name, level, rank);
+                Console.WriteLine();
+            }
+            public void doSomething()
+            {
+                int action;
 
-            public void doSomething() { Console.WriteLine("[Ask to do something then increment]"); }
 
+                Console.WriteLine("Select a number.\n Did the student (1) Code a program or (2) Assist another student? \n");
+                Console.WriteLine();
+                action = int.Parse(Console.ReadLine());
+
+                if (action == 1)
+                {
+                    level++;
+                }
+                else if (action == 2)
+                {
+                    level = level + 2;
+                }
+                else
+                    Console.WriteLine("Invalid number.\n");
+
+
+            }
+            private void findRank(int pts)
+            {
+                int switchcase = pts / 5;
+                switch (switchcase)
+                {
+                    case 0:
+                        {
+                            rank = "Beginner";
+                            Console.WriteLine("You are but a mere beginner still.");
+                            break;
+                        }
+                    case 1:
+                        {
+                            rank = "Grasshopper";
+                            Console.WriteLine("You are a fledgling grasshopper.");
+                            break;
+                        }
+                    case 2:
+                        {
+                            rank = "Journeyman";
+                            Console.WriteLine("You're a capable journeyman now!");
+                            break;
+                        }
+                    case 3:
+                        {
+                            rank = "Rock Star";
+                            Console.WriteLine("Looks like we have a programming rock star on our hands!");
+                            break;
+                        }
+                    case 4:
+                        {
+                            rank = "Ninja";
+                            Console.WriteLine("What a programming ninja you are!");
+                            break;
+                        }
+                    case 5:
+                        {
+                            rank = "Jedi";
+                            Console.WriteLine("With you, the force is. Youre a programming Jedi!");
+                            break;
+                        }
+
+
+                }
+
+            }
         }
-        
     }
 }
