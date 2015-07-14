@@ -71,8 +71,13 @@ namespace LabFiveClaases
                 Console.WriteLine("(Press {0})\n", i+1);
             }
 
+            //takiing input for which student user wants + error checking
             Console.Write("Please enter the number of the student you wish to modify >>");
-            student = Int32.Parse(Console.ReadLine()) - 1;
+
+            while (!Int32.TryParse(Console.ReadLine(), out student) || student <= 0)
+                Console.Write("Invalid input, please enter a positive integer for student number: ");
+
+            student--; //decrementing to use as an index
 
             //showing selected student then modifying based on input
             team[student].print();
@@ -128,7 +133,9 @@ class Student
         //asking user how they would like to modify student
         Console.Write("\nSelect a number: \nDid the student (1) Code a program, (2) Assist another student,");
         Console.Write("(3) Do nothing?\n>>");
-        action = int.Parse(Console.ReadLine());  //taking input
+
+        //taking input, but using tryParse so if it fails, action = 0 automatically ==> goes to default case
+        Int32.TryParse(Console.ReadLine(), out action);  //taking input
 
         switch (action)
         {
