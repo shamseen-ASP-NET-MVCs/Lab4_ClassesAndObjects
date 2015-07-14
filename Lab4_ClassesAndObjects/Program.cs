@@ -14,15 +14,20 @@ namespace LabFiveClaases
             List<Student> team = new List<Student>();
 
             //populate(team); //hardcoding elements
-            makeTeam(team); //taking in
 
+            makeTeam(team); //taking input for team of students
+
+            //repeatedly asking user how they want to modify team
+            //once they've said "N" to "Would you like to continue?", will break
             while (char.ToUpper(menu(team)) != 'N')
                 Console.Clear();
 
-            Console.WriteLine("\n\nGoodbye");
+            //signalling program termination
+            Console.WriteLine("\n\nGoodbye\n");
         }
 
-        static void makeTeam(List<Student> team)  //user-driven team
+        //making a team based completely on user input
+        static void makeTeam(List<Student> team)
         {
             int size = 0, level = 0;
             string name = "";
@@ -52,12 +57,14 @@ namespace LabFiveClaases
             }
             Console.Clear();
         }
+
+        //menu of options user can modify students by.
         static char menu(List<Student> team)
         {
             int student = 0;
             char input = 'Z';
 
-            //printing out every student
+            //printing out every student and how to select them
             for (int i = 0; i < team.Count; i++)
             {
                 team[i].print();
@@ -71,13 +78,15 @@ namespace LabFiveClaases
             team[student].print();
             team[student].doSomething();
 
-            //asking to continue, if no, then while look in Main will break.
+            //asking to continue, if no, then while loop in Main will break.
             Console.Write("\nWould you like to continue? (Y/N) >>");
             input = Console.ReadKey().KeyChar; //input will be if user wants to coninue
 
             return input;
         }
-        static List<Student> populate(List<Student> team)  //hard-coded team
+
+        //hard-coded team we used for testing, not in final product
+        static List<Student> populate(List<Student> team)
         {
             //hardcoding students, one test case per rank
             team.Add(new Student("Steve Jobs", 0));
@@ -96,47 +105,58 @@ class Student
     public int level;
     string rank;
 
+    //default constructor (we never use it)
     public Student()
     {
         level = 0;
         rank = "";
         name = "";
     }
+
+    //overloaded constructor (we use this one exculsivly)
     public Student(string id, int pts)
     {
         name = id;
         level = pts;
     }
-    public void doSomething()
+
+    //increment level by action based on user input
+    public void doSomething() 
     {
         int action;
 
+        //asking user how they would like to modify student
         Console.Write("\nSelect a number: \nDid the student (1) Code a program, (2) Assist another student,");
         Console.Write("(3) Do nothing?\n>>");
-        action = int.Parse(Console.ReadLine());
+        action = int.Parse(Console.ReadLine());  //taking input
 
         switch (action)
         {
-            case 1:
+            //student wrote a program
+            case 1: 
                 level++;
                 Console.WriteLine("Student's level has increased by one!");
                 break;
-            case 2:
+
+            //student helped a peer
+            case 2:         
                 level = level + 2;
                 Console.WriteLine("Student's level has increased by two!!");
                 break;
 
-            case 3: return;
+            //user selected wrong student OR wanted to see everyone's stats
+            case 3: return; 
 
             default: Console.WriteLine("Invalid number.\n"); break;
         }
     }
-    private string findRank()  //calculate rank based on level
-    {
-        int switchcase = level / 5;
-        string msg = "", tempRank = rank;
 
-        switch (switchcase)
+    //calculate rank based on level and printing a cute lil message with it
+    private string findRank()  
+    {
+        string msg = "";
+
+        switch (level / 5)
         {
             case 0:
                 rank = "Beginner";
@@ -169,6 +189,8 @@ class Student
         }
         return msg;
     }
+
+    //print all information about student
     public void print()
     {
         string msg = findRank();
