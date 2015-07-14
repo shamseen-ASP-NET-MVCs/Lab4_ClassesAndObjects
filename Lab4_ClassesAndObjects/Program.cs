@@ -4,23 +4,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Lab4_ClassesAndObjects
+namespace LabFiveClaases
 {
     class Program
     {
         static void Main(string[] args)
         {
-            //print all students THEN menu
-            //char input = 'Y';
-
-            //creating a list of students and hardcoding elements
+            //creating a list of students
             List<Student> team = new List<Student>();
-            //populate(team);
-            main2(team);
 
-            //repeatedly asking user to modify students until user is done
-            //while (char.ToUpper(input) != 'N')
-            //    input = menu(team);
+            //populate(team); //hardcoding elements
+            makeTeam(team); //taking in
 
             while (char.ToUpper(menu(team)) != 'N')
                 Console.Clear();
@@ -28,7 +22,7 @@ namespace Lab4_ClassesAndObjects
             Console.WriteLine("\n\nGoodbye");
         }
 
-        static void main2(List<Student> team)  //user-driven team
+        static void makeTeam(List<Student> team)  //user-driven team
         {
             int size = 0, level = 0;
             string name = "";
@@ -58,7 +52,31 @@ namespace Lab4_ClassesAndObjects
             }
             Console.Clear();
         }
+        static char menu(List<Student> team)
+        {
+            int student = 0;
+            char input = 'Z';
 
+            //printing out every student
+            for (int i = 0; i < team.Count; i++)
+            {
+                team[i].print();
+                Console.WriteLine("(Press {0})\n", i+1);
+            }
+
+            Console.Write("Please enter the number of the student you wish to modify >>");
+            student = Int32.Parse(Console.ReadLine()) - 1;
+
+            //showing selected student then modifying based on input
+            team[student].print();
+            team[student].doSomething();
+
+            //asking to continue, if no, then while look in Main will break.
+            Console.Write("\nWould you like to continue? (Y/N) >>");
+            input = Console.ReadKey().KeyChar; //input will be if user wants to coninue
+
+            return input;
+        }
         static List<Student> populate(List<Student> team)  //hard-coded team
         {
             //hardcoding students, one test case per rank
@@ -70,128 +88,91 @@ namespace Lab4_ClassesAndObjects
 
             return team;
         }
+    }
+}
+class Student
+{
+    public string name;
+    public int level;
+    string rank;
 
-        static char menu(List<Student> team)
+    public Student()
+    {
+        level = 0;
+        rank = "";
+        name = "";
+    }
+    public Student(string id, int pts)
+    {
+        name = id;
+        level = pts;
+    }
+    public void print()
+    {
+        string msg = findRank(this.level);
+        Console.WriteLine("\n{0} is level {1} and rank {2}\n {3}", name, level, rank, msg);
+    }
+    public void doSomething()
+    {
+        int action;
+
+        Console.Write("\nSelect a number: \nDid the student (1) Code a program, (2) Assist another student,");
+        Console.Write("(3) Do nothing?\n>>");
+        action = int.Parse(Console.ReadLine());
+
+        switch (action)
         {
-            int student = 0;
-            char input = 'Z';
+            case 1:
+                level++;
+                Console.WriteLine("Student's level has increased by one!");
+                break;
+            case 2:
+                level = level + 2;
+                Console.WriteLine("Student's level has increased by two!!");
+                break;
 
-            //Console.Wt
+            case 3: return;
 
-            Console.WriteLine("\nPlease enter the number of the student you wish to modify:");
-            for (int i = 0; i < team.Count; i++)
-                Console.WriteLine("Press {0} for {1}", i + 1, team[i].name);
+            default: Console.WriteLine("Invalid number.\n"); break;
+        }
+    }
+    private string findRank(int pts)
+    {
+        int switchcase = pts / 5;
+        string msg = "", tempRank = rank;
 
-            Console.Write(">>");
-            student = Int32.Parse(Console.ReadLine()) - 1;
+        switch (switchcase)
+        {
+            case 0:
+                rank = "Beginner";
+                msg = "You are but a mere beginner still.";
+                break;
+            case 1:
+                rank = "Grasshopper";
+                msg = "You are a fledgling grasshopper.";
+                break;
 
-            //showing selected student and askign if this is who they wanted
-            team[student].print();
-            Console.Write("\nIs this the correct student? (Y/N - Don't press enter) ");
-            input = Console.ReadKey().KeyChar; //input will be if user selected correct student
-            Console.Clear();
+            case 2:
+                rank = "Journeyman";
+                msg = "You're a capable journeyman now!";
+                break;
 
-            if (char.ToUpper(input) == 'N')  //if user selected wrong student, show them menu again
-                menu(team);
-            else
-                return input; //keeping rest of function from running while in recursive call
+            case 3:
+                rank = "Rock Star";
+                msg = "Looks like we have a programming rock star on our hands!";
+                break;
 
-            Console.WriteLine("HEEEEYYY");
-            team[student].doSomething(); //modifying student's level based on user input
+            case 4:
+                rank = "Ninja";
+                msg = "What a programming ninja you are!";
+                break;
 
-            //asking to continue, if no, then while look in Main will break.
-            Console.Write("Would you like to continue? (Y/N) ");
-            input = Console.ReadKey().KeyChar; //input will be if user wants to coninue
-
-            return input;
+            case 5:
+                rank = "Jedi";
+                msg = "With you, the force is. Youre a programming Jedi!";
+                break;
         }
 
-        class Student
-        {
-            public string name;
-            public int level;
-            string rank;
-
-            public Student()
-            {
-                level = 0;
-                rank = "";
-                name = "";
-            }
-            public Student(string id, int pts)
-            {
-                name = id;
-                level = pts;
-            }
-            public void print()
-            {
-                findRank(this.level);
-                Console.WriteLine("The student {0} is level {1} and rank {2}", name, level, rank);
-                Console.WriteLine();
-            }
-            public void doSomething()
-            {
-                int action;
-                
-                Console.WriteLine("Select a number.\n Did the student (1) Code a program or (2) Assist another student? \n");
-                Console.WriteLine();
-                action = int.Parse(Console.ReadLine());
-
-                if (action == 1)
-                    level++;
-
-                else if (action == 2)
-                    level = level + 2;
-                else
-                    Console.WriteLine("Invalid number.\n");
-            }
-
-            private void findRank(int pts)
-            {
-                int switchcase = pts / 5;
-                switch (switchcase)
-                {
-                    case 0:
-                        {
-                            rank = "Beginner";
-                            Console.WriteLine("You are but a mere beginner still.");
-                            break;
-                        }
-                    case 1:
-                        {
-                            rank = "Grasshopper";
-                            Console.WriteLine("You are a fledgling grasshopper.");
-                            break;
-                        }
-                    case 2:
-                        {
-                            rank = "Journeyman";
-                            Console.WriteLine("You're a capable journeyman now!");
-                            break;
-                        }
-                    case 3:
-                        {
-                            rank = "Rock Star";
-                            Console.WriteLine("Looks like we have a programming rock star on our hands!");
-                            break;
-                        }
-                    case 4:
-                        {
-                            rank = "Ninja";
-                            Console.WriteLine("What a programming ninja you are!");
-                            break;
-                        }
-                    case 5:
-                        {
-                            rank = "Jedi";
-                            Console.WriteLine("With you, the force is. Youre a programming Jedi!");
-                            break;
-                        }
-
-
-                }
-
-            }
-        }
+        return msg;
     }
 }
