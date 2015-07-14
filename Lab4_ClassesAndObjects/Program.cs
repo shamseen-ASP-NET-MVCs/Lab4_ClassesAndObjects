@@ -107,11 +107,6 @@ class Student
         name = id;
         level = pts;
     }
-    public void print()
-    {
-        string msg = findRank(this.level);
-        Console.WriteLine("\n{0} is level {1} and rank {2}\n {3}", name, level, rank, msg);
-    }
     public void doSomething()
     {
         int action;
@@ -136,9 +131,9 @@ class Student
             default: Console.WriteLine("Invalid number.\n"); break;
         }
     }
-    private string findRank(int pts)
+    private string findRank()  //calculate rank based on level
     {
-        int switchcase = pts / 5;
+        int switchcase = level / 5;
         string msg = "", tempRank = rank;
 
         switch (switchcase)
@@ -172,7 +167,11 @@ class Student
                 msg = "With you, the force is. Youre a programming Jedi!";
                 break;
         }
-
         return msg;
+    }
+    public void print()
+    {
+        string msg = findRank();
+        Console.WriteLine("\n{0} is level {1} and rank {2}\n {3}", name, level, rank, msg);
     }
 }
